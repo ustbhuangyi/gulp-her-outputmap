@@ -1,0 +1,33 @@
+{
+  "name": "gulp-her-outputmap",
+  "version": "0.0.1",
+  "description": "output resource map for her runtime via gulp",
+  "author": {
+    "name": "huangyi",
+    "email": "ustbhuangyi@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/ustbhuangyi/gulp-her-outputmap/issues"
+  },
+  "engines": {
+    "node": ">=0.9"
+  },
+  "homepage": "https://github.com/ustbhuangyi/gulp-her-outputmap/",
+  "keywords": [
+    "gulpplugin",
+    "her",
+    "map"
+  ],
+  "licenses": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ustbhuangyi/gulp-her-outputmap.git"
+  },
+  "dependencies": {
+    "gulp-util": ">=3.0.0 <4.0.0-0",
+    "through2": ">=0.6.1 <1.0.0-0",
+    "vinyl-fs": "^0.3.0",
+    "vinyl": "^0.4.0"
+  }
+}
