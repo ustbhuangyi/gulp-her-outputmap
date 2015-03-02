@@ -52,7 +52,7 @@ function writeFile(file, dest) {
 module.exports = function (ret, opt) {
 
   opt = opt || {};
-
+  var useHash = her.config.get('useHash');
   her.util.map(ret.ids, function (id, file) {
     //if file already packed, do nothing
     if (file.packed)
@@ -60,16 +60,14 @@ module.exports = function (ret, opt) {
     if (file.release && file.useMap) {
       if (file.isJsLike || file.isCssLike) {
         var content = String(file.contents);
-        var hashId = her.util.md5(content);
+        var hashId = file.getHash();
         if (file.isCssLike) {
           content += "\n" + ".css_" + hashId + "{height:88px}";
           file.contents = new Buffer(content);
-          var cssDest = her.config.get('roadmap.css.release');
-          writeFile(file, cssDest);
         }
         var res = ret.map.res[hashId] = {
-          src: file.getUrl(),
-          type: file.ext.replace(/^\./, '')
+          src: file.getUrl(useHash),
+          type: file.rExt.replace(/^\./, '')
         };
 
         res.defines = [file.id];
@@ -82,7 +80,7 @@ module.exports = function (ret, opt) {
       } else if (file.isHtmlLike) {
         ret.map.tpl[file.id] = {
           src: file.getUrl(),
-          type: file.ext.replace(/^\./, '')
+          type: file.rExt.replace(/^\./, '')
         };
       }
     }
