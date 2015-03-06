@@ -37,22 +37,17 @@
 'use strict';
 
 var gutil = require('gulp-util');
-var through = require('through2');
-var vfs = require('vinyl-fs');
 var File = require('vinyl');
-
-var pluginName = 'gulp-her-outputmap';
-
-function writeFile(file, dest) {
-  var stream = through.obj();
-  stream.write(file);
-  stream.pipe(vfs.dest(dest));
-}
 
 module.exports = function (ret, opt) {
 
+  if (!ret)
+    return;
+
   opt = opt || {};
   var useHash = her.config.get('useHash');
+  var useDomain = her.config.get('useDomain');
+
   her.util.map(ret.ids, function (id, file) {
     //if file already packed, do nothing
     if (file.packed)
@@ -66,7 +61,7 @@ module.exports = function (ret, opt) {
           file.contents = new Buffer(content);
         }
         var res = ret.map.res[hashId] = {
-          src: file.getUrl(useHash),
+          src: file.getUrl(useHash, useDomain),
           type: file.rExt.replace(/^\./, '')
         };
 
@@ -89,11 +84,14 @@ module.exports = function (ret, opt) {
   var cwd = process.cwd() || opt.cwd;
   var ns = her.config.get('namespace');
   var name = (ns ? ns + '-' : '') + 'map.json';
-  var mapFile = new File({
+  var optimize = her.config.get('optimize');
+  var mapvinyl = new File({
     cwd: cwd,
     path: cwd + '/config/' + name,
-    contents: new Buffer(JSON.stringify(ret.map, null, opt.optimize ? null : 4))
+    contents: new Buffer(JSON.stringify(ret.map, null, optimize ? null : 4)),
   });
-  var dest = her.config.get('dest');
-  writeFile(mapFile, dest);
+  mapvinyl.release = '/';
+  var mapFile = her.file(mapvinyl);
+  ret.pkg[mapFile.id] = mapFile;
+
 };
