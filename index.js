@@ -73,10 +73,14 @@ module.exports = function (ret, opt) {
           res.requireAsyncs = file.extras.async;
         }
       } else if (file.isHtmlLike) {
-        ret.map.tpl[file.id] = {
+        file.addSameNameRequire('.css');
+        var res = ret.map.tpl[file.id] = {
           src: file.getUrl(),
           type: file.rExt.replace(/^\./, '')
         };
+        if(file.requires && file.requires.length){
+          res.deps = file.requires;
+        }
       }
     }
   });
