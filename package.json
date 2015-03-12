@@ -1,6 +1,6 @@
 {
   "name": "gulp-her-outputmap",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "output resource map for her runtime via gulp",
   "author": {
     "name": "huangyi",
