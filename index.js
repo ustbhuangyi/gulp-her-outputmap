@@ -60,7 +60,7 @@ module.exports = function (ret, opt) {
           content += "\n" + ".css_" + hashId + "{height:88px}";
           file.contents = new Buffer(content);
         }
-        var res = ret.map.res[hashId] = {
+        var res = ret.map.her[hashId] = {
           src: file.getUrl(useHash, useDomain),
           type: file.rExt.replace(/^\./, '')
         };
@@ -74,8 +74,8 @@ module.exports = function (ret, opt) {
         }
       } else if (file.isHtmlLike) {
         file.addSameNameRequire('.css');
-        var res = ret.map.tpl[file.id] = {
-          src: file.getUrl(),
+        var res = ret.map.res[file.id] = {
+          uri: file.getUrl(),
           type: file.rExt.replace(/^\./, '')
         };
         if(file.requires && file.requires.length){
